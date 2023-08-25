@@ -17,4 +17,4 @@ log()
     else
         log "An error occurred while updating your IP address - ${RESPONSE}"
     fi
-} | tee -a "${LOG_FILE}"
+} | tee -a "${LOG_FILE}" > /dev/null
