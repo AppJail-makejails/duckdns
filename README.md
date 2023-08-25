@@ -11,7 +11,7 @@ duckdns.org
 ```sh
 appjail makejail \
 	-j duckdns \
-    -f gh+AppJail-makejails/duckdns \
+	-f gh+AppJail-makejails/duckdns \
 	-o virtualnet=":<name> default" \
 	-o nat -- \
 		--duckdns_subdomains first,second \
