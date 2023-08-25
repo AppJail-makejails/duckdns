@@ -1,0 +1,39 @@
+INCLUDE options/options.makejail
+
+# General settings
+ARG duckdns_log=/dev/null
+ARG duckdns_subdomains
+ARG duckdns_token
+# Crontab
+ARG duckdns_minute=*/5
+ARG duckdns_hour=*
+ARG duckdns_mday=*
+ARG duckdns_month=*
+ARG duckdns_wday=*
+
+PKG ca_root_nss
+
+CMD pw useradd -n duckdns -c "Free dynamic DNS hosted on AWS" -d /app
+
+COPY app
+
+CMD mkdir -p /app/config
+
+CMD echo "${duckdns_log}" > /app/config/log
+CMD echo "${duckdns_subdomains}" > /app/config/subdomains
+CMD echo "${duckdns_token}" > /app/config/token
+
+CMD chmod 640 /app/config/*
+
+VAR --make-arg-env duckdns_crontab=/app/crontab
+
+REPLACE ${duckdns_crontab} MINUTE ${duckdns_minute}
+REPLACE ${duckdns_crontab} HOUR ${duckdns_hour}
+REPLACE ${duckdns_crontab} MDAY ${duckdns_mday}
+REPLACE ${duckdns_crontab} MONTH ${duckdns_month}
+REPLACE ${duckdns_crontab} WDAY ${duckdns_wday}
+
+CMD chown -R duckdns:duckdns /app
+
+CMD crontab -u duckdns ${duckdns_crontab}
+CMD rm -f ${duckdns_crontab}

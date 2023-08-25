@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+
+%{MINUTE} %{HOUR} %{MDAY} %{MONTH} %{WDAY} /app/duckdns-interval.sh 2>&1
